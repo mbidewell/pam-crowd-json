@@ -3,7 +3,7 @@
 
 
 #include <curl/curl.h>
-#include <json.h>
+#include <jansson.h>
 
 #define CFG_CROWD_BASE "crowd_base_url"
 #define CFG_CROWD_APP "crowd_app"
@@ -26,7 +26,7 @@ struct crowd_config
 };
 
 
-struct json_object* get_crowd_response(const char* path, struct crowd_config* cfg);
+struct json_t* get_crowd_response(const char* path, struct crowd_config* cfg);
 
 
 #endif
