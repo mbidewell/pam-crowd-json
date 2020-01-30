@@ -29,12 +29,12 @@ _handle_crowd_rest_body(void *contents, size_t size, size_t nmemb, void *userp)
   return realsize;
 }
 
-struct json_object* get_crowd_response(const char* path, struct crowd_config* conf) 
+struct json_t* get_crowd_response(const char* path, struct crowd_config* conf) 
 {
     CURL *curl;
 	CURLcode res;
 
-    struct json_object *json_obj = NULL;
+    struct json_t *json_obj = NULL;
     
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 
@@ -83,7 +83,8 @@ struct json_object* get_crowd_response(const char* path, struct crowd_config* co
 			curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
 			if (http_code == 200)
 			{
-				json_obj = json_tokener_parse(chunk.memory);
+				json_error_t error;
+				json_obj = json_loads(chunk.memory, 0, &error);
 			}
 		}
 		curl_easy_cleanup(curl);

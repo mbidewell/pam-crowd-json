@@ -11,7 +11,7 @@
 
 #include <curl/curl.h>
 
-#include <json.h>
+#include <jansson.h>
 
 #include "utils.h"
 
@@ -21,19 +21,19 @@ int main( int argc, char** argv)
       "http://localhost:8000"
     };
 
-  struct json_object* rsp = get_crowd_response("crowd_group.json", &conf);
+  struct json_t* rsp = get_crowd_response("crowd_group.json", &conf);
 
-  struct json_object* groups = json_object_object_get(rsp, "groups");
+  struct json_t* groups = json_object_get(rsp, "groups");
 
-  int group_len = json_object_array_length(groups);
+  int group_len = json_array_size(groups);
 
   for(int i = 0; i < group_len; i++)
   {
-    struct json_object* group = json_object_array_get_idx(groups, i);
-    struct json_object* gname = json_object_object_get(group, "name");
+    struct json_t* group = json_array_get(groups, i);
+    struct json_t* gname = json_object_get(group, "name");
 
-    printf("%s\n", json_object_get_string(gname));
-    json_object_put(group);
+    printf("%s\n", json_string_value(gname));
+    json_decref(group);
   }
 
 }
