@@ -28,11 +28,13 @@ int main( int argc, char** argv)
   struct json_t* lname = json_object_get(user, "last-name");
   struct json_t* dname = json_object_get(user, "display-name");
   struct json_t* email = json_object_get(user, "email");
+  struct json_t* name = json_object_get(user, "name");
 
   printf("%s\n", json_string_value(fname));
   printf("%s\n", json_string_value(lname));
   printf("%s\n", json_string_value(dname));
   printf("%s\n", json_string_value(email));
+  printf("%s\n", json_string_value(name));
 
   json_decref(user);
 
